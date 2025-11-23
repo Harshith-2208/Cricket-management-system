@@ -7,13 +7,27 @@ class Team(models.Model):
     def __str__(self):
         return self.name
 
-
 class Player(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    team = models.ForeignKey(Team, on_delete=models.SET_NULL, null=True)
+    team = models.ForeignKey(Team, on_delete=models.SET_NULL, null=True, blank=True)
+
+    BATTING_CHOICES = [
+        ('right', 'Right Hand Batsman'),
+        ('left', 'Left Hand Batsman'),
+    ]
+
+    BOWLING_CHOICES = [
+        ('right', 'Right Arm Bowler'),
+        ('left', 'Left Arm Bowler'),
+        ('none', 'Not a Bowler'),
+    ]
+
+    bat_style = models.CharField(max_length=10, choices=BATTING_CHOICES)
+    bowl_style = models.CharField(max_length=10, choices=BOWLING_CHOICES)
 
     def __str__(self):
         return self.user.username
+
 
 class Match(models.Model):
     team1 = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='team1_matches')

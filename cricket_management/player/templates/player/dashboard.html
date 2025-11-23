@@ -1,2 +1,51 @@
-<h2>Player Dashboard</h2>
-<p>Welcome Player!</p>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Player Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            padding: 30px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        h2 {
+            margin-bottom: 20px;
+        }
+        .btn {
+            display: block;
+            text-decoration: none;
+            background: #1e90ff;
+            color: white;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .btn:hover {
+            background: #0d74d1;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Welcome, {{ request.user.username }}</h2>
+
+    <a href="{% url 'player_profile' %}" class="btn">View Profile</a>
+    <a href="{% url 'player_matches' %}" class="btn">View Matches</a>
+
+    <hr>
+    <a href="\" class="btn" style="background:#dc3545;">Logout</a>
+</div>
+
+</body>
+</html>

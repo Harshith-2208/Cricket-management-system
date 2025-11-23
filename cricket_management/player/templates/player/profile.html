@@ -1,0 +1,8 @@
+<h2>Player Profile</h2>
+
+<p><strong>Name:</strong> {{ player.user.username }}</p>
+<p><strong>Team:</strong> {{ player.team|default:"Not Assigned" }}</p>
+<p><strong>Batting Style:</strong> {{ player.get_bat_style_display }}</p>
+<p><strong>Bowling Style:</strong> {{ player.get_bowl_style_display }}</p>
+
+<a href="{% url 'player_matches' %}">View Matches</a>

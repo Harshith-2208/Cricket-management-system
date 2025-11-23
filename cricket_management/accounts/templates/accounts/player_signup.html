@@ -41,14 +41,27 @@
 
         <form method="POST">
             {% csrf_token %}
+
             <input type="text" name="username" placeholder="Username" required>
             <input type="email" name="email" placeholder="Email" required>
             <input type="password" name="password1" placeholder="Password" required>
             <input type="password" name="password2" placeholder="Confirm Password" required>
 
+            <select name="bat_style" required>
+                <option value="">Select Batting Style</option>
+                <option value="right">Right Hand Batsman</option>
+                <option value="left">Left Hand Batsman</option>
+            </select>
+
+            <select name="bowl_style" required>
+                <option value="">Select Bowling Style</option>
+                <option value="right">Right Arm Bowler</option>
+                <option value="left">Left Arm Bowler</option>
+                <option value="none">Not a Bowler</option>
+            </select>
+
             <button type="submit">Sign Up</button>
         </form>
-
         {% if error %}
             <p style="color:red">{{ error }}</p>
         {% endif %}

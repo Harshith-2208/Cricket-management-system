@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from django.contrib.auth import get_user_model
+from cricket.models import Player
 
 User = get_user_model()
 
@@ -33,16 +34,25 @@ def player_signup(request):
         email = request.POST.get('email')
         password1 = request.POST.get('password1')
         password2 = request.POST.get('password2')
+        bat_style = request.POST.get('bat_style')
+        bowl_style = request.POST.get('bowl_style')
 
         if password1 != password2:
             return render(request, 'accounts/player_signup.html', {'error': 'Passwords do not match'})
 
-        if User.objects.filter(username=username).exists():
-            return render(request, 'accounts/player_signup.html', {'error': 'Username already exists'})
+        user = User.objects.create_user(
+            username=username,
+            email=email,
+            password=password1
+        )
 
-        user = User.objects.create_user(username=username, email=email, password=password1)
-        user.save()
+        Player.objects.create(
+            user=user,
+            bat_style=bat_style,
+            bowl_style=bowl_style
+        )
 
-        return redirect('login')  # or change to your player login page
+        return redirect('login')
 
     return render(request, 'accounts/player_signup.html')
+
