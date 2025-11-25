@@ -37,7 +37,7 @@ class Match(models.Model):
     # NEW FIELDS
     team1_score = models.IntegerField(default=0)
     team2_score = models.IntegerField(default=0)
-    current_innings = models.IntegerField(default=1)  # 1 or 2
+    current_innings = models.IntegerField(default=1)  
     is_completed = models.BooleanField(default=False)
 
     def __str__(self):
@@ -45,7 +45,7 @@ class Match(models.Model):
 
 class Ball(models.Model):
     match = models.ForeignKey(Match, on_delete=models.CASCADE)
-    innings = models.IntegerField(default=1)  # NEW
+    innings = models.IntegerField(default=1)  
 
     over = models.IntegerField()
     ball_number = models.IntegerField()

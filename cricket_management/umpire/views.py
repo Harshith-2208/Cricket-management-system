@@ -6,11 +6,9 @@ from django.db import models
 
 
 def umpire_home(request):
-    # If not logged in → go to login
     if not request.user.is_authenticated:
         return redirect('umpire_login')
 
-    # If logged in but NOT umpire → block
     if request.user.role != 'umpire':
         return HttpResponseForbidden("You are not an umpire")
 
@@ -35,15 +33,12 @@ def enter_ball(request, match_id):
         innings=match.current_innings
     ).count()
 
-    # Stop match when both innings done
     if total_balls >= max_balls:
             if match.current_innings == 1:
-                # Switch to Team 2 innings
                 match.current_innings = 2
                 match.save()
                 return redirect('enter_ball', match_id=match.id)
             else:
-                # End match after 2nd innings
                 match.is_completed = True
                 match.save()
                 return redirect('match_completed', match_id=match.id)
@@ -58,7 +53,6 @@ def enter_ball(request, match_id):
 
         count_ball = extra not in ['wide', 'no_ball']
 
-        # Save Ball
         if count_ball:
             Ball.objects.create(
                 match=match,
@@ -69,7 +63,6 @@ def enter_ball(request, match_id):
                 is_wicket=is_wicket
             )
 
-        # Update score
         if match.current_innings == 1:
             match.team1_score += runs
         else:
@@ -79,7 +72,6 @@ def enter_ball(request, match_id):
 
         return redirect('enter_ball', match_id=match.id)
 
-    # Live Scores
     total_runs = match.team1_score if match.current_innings == 1 else match.team2_score
 
     wickets = Ball.objects.filter(
@@ -108,7 +100,7 @@ def start_match(request):
     if request.method == 'POST':
         team1_id = request.POST.get('team1')
         team2_id = request.POST.get('team2')
-        overs = request.POST.get('overs')  # <-- added
+        overs = request.POST.get('overs') 
 
         if team1_id and team2_id and team1_id != team2_id and overs:
             Match.objects.create(
@@ -119,7 +111,7 @@ def start_match(request):
             return redirect('start_match')
     
     teams = Team.objects.all()
-    matches = Match.objects.order_by('-id')  # Newest first
+    matches = Match.objects.order_by('-id') 
 
 
     return render(request, 'umpire/start_match.html', {
